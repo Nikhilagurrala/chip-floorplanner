@@ -1,4 +1,13 @@
+---
+title: Chip Floorplanner
+emoji: 🧩
+colorFrom: indigo
+colorTo: blue
+sdk: docker
+pinned: false
+---
 # Chip Floorplanner — Macro Placement Optimization Environment
+
 
 A professional-grade Reinforcement Learning environment for **VLSI Chip Floorplanning** (Macro Placement), designed strictly for the OpenEnv evaluation framework.
 

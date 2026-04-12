@@ -29,7 +29,7 @@ git push --force https://user:%HF%@huggingface.co/spaces/diva29/chip-floorplanne
 
 :: Secure GitHub Push
 echo [INFO] Pushing safely to GitHub...
-git push --force https://%GH%@github.com/diva29/chip-floorplanner.git main
+git push --force https://%GH%@github.com/Nikhilagurrala/chip-floorplanner.git main
 
 echo =======================================================
 echo [SUCCESS] Deployment Completed with fully masked tokens!
