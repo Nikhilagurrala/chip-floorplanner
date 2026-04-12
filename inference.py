@@ -93,17 +93,18 @@ def build_prompt(obs):
         for m in placed
     ) if placed else "  (none yet)"
 
-    return textwrap.dedent(f\"\"\"
-        TASK: Place module {cur.get('id')} ({cur.get('width')}x{cur.get('height')}).
-        OCCUPIED REGIONS:
-        {placed_str}
-
-        CANVAS GRID (#=occupied, .=free, 2:1 scale):
-        {canvas_str}
-
-        CONSTRAINTS: x in [0, {cw-cur.get('width', 1)}], y in [0, {ch-cur.get('height', 1)}]
-        Respond ONLY with JSON: {{"x": <int>, "y": <int>, "rotate": <bool>}}
-    \"\"\").strip()
+    lines = [
+        f"TASK: Place module {cur.get('id')} ({cur.get('width')}x{cur.get('height')}).",
+        "OCCUPIED REGIONS:",
+        placed_str,
+        "",
+        "CANVAS GRID (#=occupied, .=free, 2:1 scale):",
+        canvas_str,
+        "",
+        f"CONSTRAINTS: x in [0, {cw - cur.get('width', 1)}], y in [0, {ch - cur.get('height', 1)}]",
+        'Respond ONLY with JSON: {"x": <int>, "y": <int>, "rotate": <bool>}',
+    ]
+    return "\n".join(lines)
 
 def parse_action(text: str):
     m = re.search(r'\{[^}]+\}', text, re.DOTALL)
