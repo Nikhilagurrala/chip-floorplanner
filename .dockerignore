@@ -1,0 +1,26 @@
+# Never bake local credentials into the Docker image.
+# The validator will inject API_BASE_URL and API_KEY at runtime.
+.env
+.env.*
+!.env.example
+
+# Dev artifacts
+.git
+.gitignore
+__pycache__/
+*.py[cod]
+*$py.class
+local_logs/
+benchmarks/
+outputs/
+*.json
+*.csv
+local_test.py
+mock_eval.py
+strict_evaluation.py
+benchmark_llms.py
+run_full_benchmark.py
+deploy_secure.bat
+deploy_secure.ps1
+setup_keys.py
+README.md

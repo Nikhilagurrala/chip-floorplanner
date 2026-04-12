@@ -25,9 +25,11 @@ except ImportError:
 load_dotenv()
 
 # --- Configuration ---
-API_BASE_URL = os.getenv("API_BASE_URL", "https://router.huggingface.co/v1")
+# IMPORTANT: Use ONLY the injected API_BASE_URL and API_KEY from the validator.
+# Do NOT fall back to HF_TOKEN or any hardcoded credentials.
+API_BASE_URL = os.environ["API_BASE_URL"]           # Must be injected by the validator
 MODEL_NAME   = os.getenv("MODEL_NAME", "Qwen/Qwen2.5-72B-Instruct")
-API_KEY      = os.getenv("HF_TOKEN") or os.getenv("API_KEY")
+API_KEY      = os.environ["API_KEY"]                # Must be injected by the validator
 
 # For local testing vs HF Space deployment
 IMAGE_NAME   = os.getenv("LOCAL_IMAGE_NAME") # Optional for local docker testing
