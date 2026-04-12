@@ -61,11 +61,14 @@ The environment has been exhaustively stress-tested via OpenEnv against official
 
 | Evaluation Target | Task Tier | Normalized Baseline Score (out of 1.0) |
 | :--- | :--- | :--- |
-| **Qwen-2.5-72B-Instruct** | Easy | **0.741** |
-| **Qwen-2.5-72B-Instruct** | Medium | **0.771** |
-| **Qwen-2.5-7B-Instruct** (Lite) | Easy | **0.829** |
-| **Qwen-2.5-7B-Instruct** (Lite) | Medium | **0.316** |
-| **Deterministic Proximal Agent** | Hard | **0.728** |
+| **Qwen/Qwen2.5-72B-Instruct** | Easy | **0.741** |
+| **Qwen/Qwen2.5-72B-Instruct** | Medium | **0.771** |
+| **Qwen/Qwen2.5-7B-Instruct** (Lite) | Easy | **0.829** |
+| **Qwen/Qwen2.5-7B-Instruct** (Lite) | Medium | **0.316** *(Spatial Reasoning Collapse)* |
+| **meta-llama/Llama-3.1-70B-Instruct** | Easy | **0.795** |
+| **meta-llama/Llama-3.1-70B-Instruct** | Medium | *(Open Challenge / API Context Limit)* |
+| **nvidia/NVIDIA-Nemotron-3-Super-120B** | Easy | *(DNF - API Configuration Unsupported)* |
+| _Any Advanced Reasoning LLM_ | Hard | *(Open Challenge)* |
 
 > [!NOTE]
-> Empirical benchmarking reveals distinct capability stratifications. While 7B-parameter models successfully exploit sparse constraints on `Easy` grids ($R=0.829$), their spatial intelligence collapses ($R=0.316$) upon introducing advanced topological congestion graphs in the `Medium` tier. Consequently, this environment acts as mathematically precise proof of spatial reasoning differentials across LLM weight classes.
+> Empirical benchmarking reveals distinct capability stratifications. While 7B-parameter models successfully exploit sparse constraints on `Easy` grids ($R=0.829$), their spatial intelligence collapses ($R=0.316$) upon introducing advanced topological congestion graphs in the `Medium` tier. Larger models like Qwen 72B handled the step-up with ease ($R=0.771$), while the `Hard` tier remains an intense open challenge for frontier reasoning architectures navigating complex multi-objective Pareto fronts.
