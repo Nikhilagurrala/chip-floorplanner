@@ -1,0 +1,22 @@
+name: chip_floorplanner
+version: 0.1.0
+description: >-
+  Chip Floorplanning — Place circuit modules on a 2D canvas to minimize
+  wire length and bounding box area. A real-world EDA task.
+author: diva29
+tags:
+  - openenv
+  - eda
+  - chip-design
+  - floorplanning
+
+tasks:
+  - name: easy
+    description: "4 modules, 20x20 canvas, 2 nets"
+    difficulty: easy
+  - name: medium
+    description: "7 modules, 30x30 canvas, 5 nets"
+    difficulty: medium
+  - name: hard
+    description: "12 modules, 40x40 canvas, 10 nets"
+    difficulty: hard

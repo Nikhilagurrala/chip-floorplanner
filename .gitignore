@@ -1,0 +1,13 @@
+# Local environment variables
+.env
+
+# Python artifacts
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Output and benchmarks
+benchmarks/
+outputs/
+*.json
+*.csv

@@ -1,0 +1,46 @@
+=== ULTIMATE CHIP FLOORPLANNER BENCHMARK REPORT ===
+
+--- MODEL: Qwen/Qwen2.5-72B-Instruct ---
+
+==================================================
+[START] task=easy env=chip_floorplanner model=Qwen/Qwen2.5-72B-Instruct
+[END]   success=false steps=0 score=0.000 rewards=
+
+==================================================
+[START] task=medium env=chip_floorplanner model=Qwen/Qwen2.5-72B-Instruct
+[END]   success=false steps=0 score=0.000 rewards=
+
+==================================================
+[START] task=hard env=chip_floorplanner model=Qwen/Qwen2.5-72B-Instruct
+[END]   success=false steps=0 score=0.000 rewards=
+============================================================
+
+--- MODEL: meta-llama/Llama-3.1-70B-Instruct ---
+
+==================================================
+[START] task=easy env=chip_floorplanner model=meta-llama/Llama-3.1-70B-Instruct
+[END]   success=false steps=0 score=0.000 rewards=
+
+==================================================
+[START] task=medium env=chip_floorplanner model=meta-llama/Llama-3.1-70B-Instruct
+[END]   success=false steps=0 score=0.000 rewards=
+
+==================================================
+[START] task=hard env=chip_floorplanner model=meta-llama/Llama-3.1-70B-Instruct
+[END]   success=false steps=0 score=0.000 rewards=
+============================================================
+
+--- MODEL: nvidia/Llama-3.1-Nemotron-70B-Instruct-HF ---
+
+==================================================
+[START] task=easy env=chip_floorplanner model=nvidia/Llama-3.1-Nemotron-70B-Instruct-HF
+[END]   success=false steps=0 score=0.000 rewards=
+
+==================================================
+[START] task=medium env=chip_floorplanner model=nvidia/Llama-3.1-Nemotron-70B-Instruct-HF
+[END]   success=false steps=0 score=0.000 rewards=
+
+==================================================
+[START] task=hard env=chip_floorplanner model=nvidia/Llama-3.1-Nemotron-70B-Instruct-HF
+[END]   success=false steps=0 score=0.000 rewards=
+============================================================
