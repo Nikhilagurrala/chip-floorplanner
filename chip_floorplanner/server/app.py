@@ -197,14 +197,8 @@ with gr.Blocks(title="Chip Floorplanner Pro", theme=gr.themes.Default(primary_hu
     # Initial load
     demo.load(ui_reset, inputs=[task_dd], outputs=[state_box, canvas_out, x_sl, y_sl, controls])
 
-from fastapi.responses import RedirectResponse
-
-@app.get("/")
-def redirect_to_ui():
-    return RedirectResponse(url="/ui")
-
-# Mounting
-app = gr.mount_gradio_app(app, demo, path="/ui")
+# Mounting Gradio directly to the root path to avoid 307 redirect loops on HF Spaces
+app = gr.mount_gradio_app(app, demo, path="/")
 
 if __name__ == "__main__":
     import uvicorn
