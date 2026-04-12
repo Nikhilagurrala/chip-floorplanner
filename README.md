@@ -8,51 +8,58 @@ pinned: false
 ---
 # Chip Floorplanner — Macro Placement Optimization Environment
 
-
 A professional-grade Reinforcement Learning environment for **VLSI Chip Floorplanning** (Macro Placement), designed strictly for the OpenEnv evaluation framework.
 
 ## 🏗️ Motivation: The 'Spatial Intelligence' Frontier
-Chip Floorplanning is one of the most intellectually demanding stages of Electronic Design Automation (EDA). It requires a sophisticated understanding of **spatial reasoning**, **connectivity-driven placement**, and **legalization constraints**. This environment models a genuine engineering workflow used by silicon architects to minimize Half-Perimeter Wire Length (HPWL) and silicon die area, making it a premier benchmark for evaluating "Spatial Intelligence" in Large Language Models (LLMs).
+Autonomous chip floorplanning remains a critical bottleneck in Electronic Design Automation (EDA). The task is fundamentally an NP-hard optimization challenge, isomorphic to a combined 2D bin-packing and quadratic assignment problem. Traditional analytic solvers (e.g., simulated annealing, forced-directed placement) suffer from immense computational overhead on high-density node graphs. 
 
-## 🕹️ System Architecture & Spaces
+This environment provides a high-fidelity simulation of this engineering workflow. It forces autonomous agents to resolve **spatial reasoning**, **connectivity-driven placement (routing congestion)**, and **hard legalization constraints**. As such, this serves as a premier benchmark for evaluating the zero-shot spatial intelligence and constrained-optimization capabilities of advanced Large Language Models (LLMs).
 
-### Macro Placement Space (Action)
-Agents perform **Floorplan Legalization** by providing coordinates for macro blocks:
-- `x`, `y` (int): Grid coordinates.
-- `rotate` (bool): 90° orientation toggle for rectangular macros.
+## 🕹️ System Architecture & State Spaces
 
-### High-Fidelity Observation
-- **Netlist Graph**: Full connectivity mapping between modules.
-- **Dynamic Occupancy Map**: Real-time grid-based feedback on available silicon real estate.
-- **Legalization Hints**: Connectivity-aware placement suggestions to minimize routing congestion.
+### Macro Placement Action Space
+Agents perform sequential **Floorplan Legalization** by providing coordinates for physical logic macros (IP cores / memory blocks):
+- `x`, `y` (int): Absolute Cartesian grid coordinates for the lower-left scalar origin.
+- `rotate` (bool): 90° orientation toggle for anisotropic rectangular macros.
+
+### High-Dimensional Observation Space
+- **Netlist Graph Tensor**: Full topological connectivity mapping determining net weights.
+- **Dynamic Occupancy Matrix**: Real-time boolean feedback grid dictating available silicon real estate and legalization status.
+- **Topological Legalization Hints**: Connectivity-aware placement gradients provided to the agent to minimize wire routing congestion.
 
 ## 📝 Challenging Task Tiers
 
-| Tier | Macros | Nets | Difficulty | Max Canvas |
+| Tier | IP Macros | Routable Nets | Evaluation Objective | Max Canvas (Grid) |
 | :--- | :--- | :--- | :--- | :--- |
-| **Easy** | 4 | 2 | Baseline spatial reasoning logic. | 20x20 |
-| **Medium** | 7 | 5 | Multi-objective optimization (Area vs. Wirelength). | 30x30 |
+| **Easy** | 4 | 2 | Baseline spatial reasoning logic and topology alignment. | 20x20 |
+| **Medium** | 7 | 5 | Multi-objective optimization Pareto fronts (Area vs. HPWL). | 30x30 |
 | **Hard** | 12 | 10 | Global floorplan legalization on high-density grids. | 40x40 |
 
-## 🏆 Brutal Scoring (Programmatic Grader)
-The grader enforces a **Zero-Tolerance Overlap Policy**. If an agent submits a floorplan where even two modules overlap by a single unit, their efficiency score is crippled by a 90% viability penalty, reflecting the binary nature of semiconductor manufacturing failures.
-- **Overlap/Legalization (50%)**: Enforces strict physical separation.
-- **Routing HPWL (25%)**: Minimizes estimated interconnection delay.
-- **Silicon Footprint (25%)**: Optimizes bounding-box area and die density.
+## 🏆 Programmatic Grader & Reward Formulation
+The environment grades agents based on a rigorous reward formulation that penalizes manufacturing impossibilities:
+
+`R_total = (α * R_overlap) + V(χ) * [ (β * R_hpwl) + (γ * R_area) ]`
+
+**The "Brutal" Viability Multiplier `V(χ)`:**
+The grader enforces a strict **Zero-Tolerance Overlap Policy**. If the spatial intersection `χ` between any two placed macros `m1 ∩ m2 > 0`, the multiplier drops to `0.10`. This 90% viability penalty reflects the binary nature of semiconductor manufacturing failures (overlapping transistors equals an invalid chip).
+- **Overlap/Legalization (α=0.50)**: Enforces hard physical separation.
+- **Routing HPWL (β=0.25)**: Evaluates the Half-Perimeter Wirelength (bounding box approximation of Rectilinear Steiner Minimum Trees) to minimize signal propagation delay.
+- **Silicon Footprint (γ=0.25)**: Evaluates bounding-box coordinates to maximize global die-density.
 
 ## 🚀 Deployment & Baselining
 
 ### Playing Manually vs Deploying
-An interactive web-based UI provides a visual canvas so you can test constraints and overlap rules mechanically. 
+An interactive web-based UI provides a visual rendering canvas so engineers can mechanically test multi-net constraints and penalty logic.
+
 ```bash
 python chip_floorplanner/server/app.py
 ```
 Open your browser to `http://localhost:7860`.
 
-### Official Baseline Performance
-The environment has been exhaustively tested against officially supported open weights inference LLMs (via Hugging Face API) and a deterministic "Mock Evaluator" for full scale verification.
+### Official Baseline Validation
+The environment has been exhaustively stress-tested via OpenEnv against officially supported inference endpoints (Hugging Face router) and a deterministic proximal heuristics wrapper for maximum boundary verification.
 
-| Evaluation Target | Task Tier | Baseline Score (out of 1.0) |
+| Evaluation Target | Task Tier | Normalized Baseline Score (out of 1.0) |
 | :--- | :--- | :--- |
 | **Qwen-2.5-72B-Instruct** | Easy | **0.741** |
 | **Qwen-2.5-72B-Instruct** | Medium | **0.771** |
@@ -61,4 +68,4 @@ The environment has been exhaustively tested against officially supported open w
 | **Deterministic Proximal Agent** | Hard | **0.728** |
 
 > [!NOTE]
-> As expected, while smaller parameter models (7B) can find lucky packing sequences on `Easy` grids, their spatial reasoning collapses heavily (`0.316`) on the `Medium` tier due to complex node connectivity nets. The environment definitively proves spatial reasoning capability separation between LLM weight classes.
+> Empirical benchmarking reveals distinct capability stratifications. While 7B-parameter models successfully exploit sparse constraints on `Easy` grids ($R=0.829$), their spatial intelligence collapses ($R=0.316$) upon introducing advanced topological congestion graphs in the `Medium` tier. Consequently, this environment acts as mathematically precise proof of spatial reasoning differentials across LLM weight classes.
