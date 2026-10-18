@@ -11,3 +11,7 @@ benchmarks/
 outputs/
 *.json
 *.csv
+
+.venv/
+
+.venv/
