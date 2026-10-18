@@ -151,8 +151,8 @@ def build_canvas(obs, ghost=None):
 
 # --- UI Layout ---
 
-with gr.Blocks(title="Chip Floorplanner Pro", theme=gr.themes.Default(primary_hue="indigo")) as demo:
-    gr.Markdown("# 🧩 Chip Floorplanner Pro")
+with gr.Blocks(title="Chip Floorplanner", theme=gr.themes.Default(primary_hue="indigo")) as demo:
+    gr.Markdown("# 🧩 Chip Floorplanner")
     gr.Markdown("Place circuit modules efficiently. **Green Ghost** = Safe | **Red Ghost** = Overlap.")
     
     with gr.Row():

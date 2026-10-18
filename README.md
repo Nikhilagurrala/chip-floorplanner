@@ -32,8 +32,8 @@ Agents perform sequential **Floorplan Legalization** by providing coordinates fo
 | Tier | IP Macros | Routable Nets | Evaluation Objective | Max Canvas (Grid) |
 | :--- | :--- | :--- | :--- | :--- |
 | **Easy** | 4 | 2 | Baseline spatial reasoning logic and topology alignment. | 20x20 |
-| **Medium** | 7 | 5 | Multi-objective optimization Pareto fronts (Area vs. HPWL). | 30x30 |
-| **Hard** | 12 | 10 | Global floorplan legalization on high-density grids. | 40x40 |
+| **Medium** | 7 | 5 | Multi-objective optimization Pareto fronts (Area vs. HPWL). | 20x20 |
+| **Hard** | 12 | 10 | Global floorplan legalization on high-density grids. | 20x20 |
 
 ## 🏆 Programmatic Grader & Reward Formulation
 The environment grades agents based on a rigorous reward formulation that penalizes manufacturing impossibilities:
@@ -55,6 +55,29 @@ An interactive web-based UI provides a visual rendering canvas so engineers can 
 python chip_floorplanner/server/app.py
 ```
 Open your browser to `http://localhost:7860`.
+
+### 🪄 Ghost Preview
+As you adjust the **X Position** and **Y Position** sliders, the canvas renders a real-time **ghost outline** of where the current module would land:
+- **Green ghost** — position is valid (no overlap with already-placed modules)
+- **Red ghost** — position overlaps an existing module and will trigger the FATAL 50% penalty
+
+The ghost updates instantly on every slider move, letting you visually confirm a safe placement before committing.
+
+### 🔍 Auto-Snap ("Find Safe Spot")
+The **"🪄 Find Safe Spot"** button runs a proximity scan of the canvas occupancy matrix and automatically snaps the X and Y sliders to the nearest valid non-overlapping grid coordinate for the current module's dimensions (accounting for optional 90° rotation). This is especially useful for dense placements where safe spots are hard to find manually.
+
+## 🤖 LLM Evaluation Agents
+This environment is designed as a benchmark for evaluating LLM spatial intelligence. The following models are pre-linked as evaluation agents on the HuggingFace Space:
+
+| Model | Provider | Parameters |
+| :--- | :--- | :--- |
+| `Qwen/Qwen2.5-7B-Instruct` | Qwen | 7.6B |
+| `meta-llama/Llama-3.1-8B-Instruct` | Meta | 8.0B |
+| `Qwen/Qwen2.5-72B-Instruct` | Qwen | 72.7B |
+| `meta-llama/Llama-3.1-70B-Instruct` | Meta | 70.6B |
+| `nvidia/Llama-3.1-Nemotron-70B-Instruct-HF` | NVIDIA | 70.6B |
+
+Agents interact with the environment via the public Gradio API endpoints (`/ui_reset`, `/ui_step`, `/ui_autosnap`, `/ui_preview`) — no UI interaction required.
 
 | Evaluation Target | Task Tier | Normalized Baseline Score (out of 1.0) |
 | :--- | :--- | :--- |
